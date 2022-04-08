@@ -36,7 +36,7 @@ public class PersonalInformation {
     @FindBy(css = "#months")
     private WebElement selectMonth;
 
-    @FindBy(css = "#years")
+    @FindBy(xpath = "//select[@name='years']")
     private WebElement selectYear;
 
     @FindBy(xpath = "//input[@name='newsletter']")
@@ -59,6 +59,15 @@ public class PersonalInformation {
 
     @FindBy(xpath = "//input[@name='address2']")
     private WebElement addressLineTwoField;
+
+    @FindBy(xpath = "//input[@name='city']")
+    private WebElement cityField;
+
+    @FindBy(xpath = "//select[@name='id_state']")
+    private WebElement selectState;
+
+    @FindBy(xpath = "//input[@name='postcode']")
+    private WebElement postcodeField;
 
     @FindBy(xpath = "//select[@name='id_country']")
     private WebElement selectCountry;
@@ -139,8 +148,20 @@ public class PersonalInformation {
         addressLineTwoField.sendKeys(address);
     }
 
+    public void inputCity(String city) {
+        cityField.sendKeys(city);
+    }
+
     public Select getSelectCountry() {
         return new Select(selectCountry);
+    }
+
+    public Select getSelectState() {
+        return new Select(selectState);
+    }
+
+    public void inputPostCode(String postCode) {
+        postcodeField.sendKeys(postCode);
     }
 
     public void inputAdditionalInformation(String additionalInformation) {

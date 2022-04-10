@@ -6,13 +6,14 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
-public class PersonalInformation {
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
-    public WebDriver driver;
+public class PersonalInformation extends BasePage {
 
     public PersonalInformation(WebDriver driver) {
-        PageFactory.initElements(driver, this);
-        this.driver = driver;
+        super(driver);
     }
 
     @FindBy(css = "#id_gender1")
@@ -87,6 +88,14 @@ public class PersonalInformation {
     @FindBy(css = "#submitAccount")
     private WebElement submitAccountBtn;
 
+    @FindBy(css = ".alert-danger")
+    private WebElement alertDanger;
+
+    @FindBy(css = ".alert-danger > p")
+    private WebElement alertDangerTitle;
+
+    @FindBy(css = ".alert-danger > ol > li")
+    private List<WebElement> alertDangerMessages;
 
     public void clickRadioBtnMr() {
         radioBtnMr.click();
@@ -96,12 +105,37 @@ public class PersonalInformation {
         radioBtnMrs.click();
     }
 
+    public void clickRandomRadioBtnMrMrs() {
+        int randIndex = new Random().nextInt(2);
+        if (randIndex == 1) {
+            radioBtnMr.click();
+        } else {
+            radioBtnMrs.click();
+        }
+    }
+
     public void inputCustomerFirstName(String firstName) {
         customerFirstNameField.sendKeys(firstName);
     }
 
+    public String getCustomerFirstNameFromField() {
+        return customerFirstNameField.getText();
+    }
+
+    public void cleanCustomerFirstName() {
+        customerFirstNameField.clear();
+    }
+
     public void inputCustomerLastName(String lastName) {
         customerLastNameField.sendKeys(lastName);
+    }
+
+    public String getCustomerLastNameFromField() {
+        return customerLastNameField.getText();
+    }
+
+    public void cleanCustomerLastName() {
+        customerLastNameField.clear();
     }
 
     public void inputPassword(String password) {
@@ -180,7 +214,19 @@ public class PersonalInformation {
         addressAliasField.sendKeys(addressAlias);
     }
 
-    public void pressSubmitAccountBtn() {
+    public void clearAddressAlias() {
+        addressAliasField.clear();
+    }
+
+    public void clickSubmitAccountBtn() {
         submitAccountBtn.click();
+    }
+
+    public String getAlertDangerTitle() {
+        return alertDangerTitle.getText();
+    }
+
+    public List<String> getListAlertDangerMessages() {
+        return alertDangerMessages.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 }

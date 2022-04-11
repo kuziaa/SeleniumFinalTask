@@ -1,0 +1,5 @@
+target/
+src/test/resources/screenshots/
+allure-results/
+.allure/
+allure.results.directory/

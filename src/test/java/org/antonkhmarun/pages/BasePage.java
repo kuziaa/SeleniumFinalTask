@@ -27,8 +27,4 @@ public class BasePage {
     public void logout() {
         logoutBtn.click();
     }
-
-    public String getLogoutLink() {
-        return logoutBtn.getAttribute("href");
-    }
 }

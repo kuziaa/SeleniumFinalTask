@@ -1,6 +1,7 @@
-package org.antonkhmarun.tests;
+package org.antonkhmarun.pages;
 
 import org.antonkhmarun.pages.BasePage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -33,10 +34,6 @@ public class Cart extends BasePage {
         return productsInCart;
     }
 
-    public List<Double> getPricesOfProductsInCart() {
-        return pricesOfProductsInCart.stream().map(product -> Double.parseDouble(product.getText().trim().substring(1))).collect(Collectors.toList());
-    }
-
     public double getTotalShippingPrice() {
         return Double.parseDouble(totalShipping.getText().trim().substring(1));
     }
@@ -49,4 +46,7 @@ public class Cart extends BasePage {
         return Double.parseDouble(totalPrice.getText().trim().substring(1));
     }
 
+    public void delProductFromCart(WebElement product) {
+        product.findElement(By.xpath(".//a[@class='cart_quantity_delete']")).click();
+    }
 }

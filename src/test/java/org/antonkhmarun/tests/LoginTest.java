@@ -38,9 +38,9 @@ public class LoginTest extends BaseTest {
         authentication.clickSubmitLoginBtn();
 
         String expectedAlertTitle = "There is 1 error";
-        String expectedAlertMessage1 = "An email address required.";
+        String expectedAlertMessage = "An email address required.";
 
         assertEquals(expectedAlertTitle, authentication.getAlertDangerTitle());
-        assertEquals(List.of(expectedAlertMessage1), authentication.getListAlertDangerMessages());
+        assertEquals(List.of(expectedAlertMessage), authentication.getListAlertDangerMessages());
     }
 }

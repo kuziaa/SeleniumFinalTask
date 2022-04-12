@@ -54,17 +54,17 @@ public class WishlistTest extends BaseTest {
 
         assertEquals(1, wishlists.size());
 
-        WebElement wishlist = wishlists.get(0);
+        WebElement wishlist1 = wishlists.get(0);
 
-        assertEquals("My wishlist", WishlistTest.wishlist.getWishlistName(wishlist));
-        assertEquals("1", WishlistTest.wishlist.getWishListQuantity(wishlist));
+        assertEquals("My wishlist", wishlist.getWishlistName(wishlist1));
+        assertEquals("1", wishlist.getWishListQuantity(wishlist1));
 
-        WishlistTest.wishlist.clickDeleteWishlistBtn(wishlist);
+        wishlist.clickDeleteWishlistBtn(wishlist1);
 
         Alert al = driver.switchTo().alert();
         al.accept();
 
-        WishlistTest.wishlist.logout();
+        wishlist.logout();
     }
 
     @Test

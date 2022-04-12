@@ -7,9 +7,7 @@ import org.antonkhmarun.enums.State;
 import org.antonkhmarun.pages.Authentication;
 import org.antonkhmarun.pages.PersonalInformation;
 import org.antonkhmarun.supply.RandomDateGenerator;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.support.ui.Select;
 
@@ -28,7 +26,6 @@ public class CreatingAccountTest extends BaseTest{
     public void beforeEachTest() {
         personalInformation = new PersonalInformation(driver);
         authentication = new Authentication(driver);
-
         driver.get(ConfProperties.getProperty("loginPage"));
     }
 
@@ -42,10 +39,6 @@ public class CreatingAccountTest extends BaseTest{
         String firstName = faker.name().firstName();
         String lastName = faker.name().lastName();
         fillAllFieldsWithRandomValidData(firstName, lastName);
-
-        String customerFirstName = personalInformation.getCustomerFirstNameFromField();
-        String customerLastName = personalInformation.getCustomerLastNameFromField();
-        String accountName = customerFirstName + " " + customerLastName;
 
         personalInformation.clickSubmitAccountBtn();
 
@@ -67,10 +60,10 @@ public class CreatingAccountTest extends BaseTest{
         personalInformation.clickSubmitAccountBtn();
 
         String expectedAlertTitle = "There is 1 error";
-        String expectedAlertMessage1 = "firstname is required.";
+        String expectedAlertMessage = "firstname is required.";
 
         assertEquals(expectedAlertTitle, personalInformation.getAlertDangerTitle());
-        assertEquals(List.of(expectedAlertMessage1), personalInformation.getListAlertDangerMessages());
+        assertEquals(List.of(expectedAlertMessage), personalInformation.getListAlertDangerMessages());
     }
 
     @Test

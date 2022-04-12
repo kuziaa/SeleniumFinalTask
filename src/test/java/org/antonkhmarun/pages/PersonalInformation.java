@@ -118,20 +118,12 @@ public class PersonalInformation extends BasePage {
         customerFirstNameField.sendKeys(firstName);
     }
 
-    public String getCustomerFirstNameFromField() {
-        return customerFirstNameField.getText();
-    }
-
     public void cleanCustomerFirstName() {
         customerFirstNameField.clear();
     }
 
     public void inputCustomerLastName(String lastName) {
         customerLastNameField.sendKeys(lastName);
-    }
-
-    public String getCustomerLastNameFromField() {
-        return customerLastNameField.getText();
     }
 
     public void cleanCustomerLastName() {
@@ -160,14 +152,6 @@ public class PersonalInformation extends BasePage {
 
     public void clickSpecialOffersCheckbox() {
         specialOffersCheckbox.click();
-    }
-
-    public void inputFirstname(String firstname) {
-        firstnameField.sendKeys(firstname);
-    }
-
-    public void inputLastname(String lastname) {
-        lastnameField.sendKeys(lastname);
     }
 
     public void inputCompany(String company) {

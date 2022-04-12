@@ -1,7 +1,6 @@
 package org.antonkhmarun.tests;
 
 import org.antonkhmarun.config.ConfProperties;
-import org.antonkhmarun.pages.Authentication;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.MutableCapabilities;
@@ -25,13 +24,11 @@ public class BaseTest {
 
     public static WebDriver driver;
     public static WebDriverWait wait;
-    public static Authentication authentication;
 
     @BeforeAll
     public static void setup() throws MalformedURLException {
         driver = getDriver();
         driver.manage().window().maximize();
-//        driver.manage().window().fullscreen();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
         wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -148,43 +145,4 @@ public class BaseTest {
                 throw new RuntimeException("Unexpected browser name: " + sauceBrowserName);
         }
     }
-
-//    public void login(String userName, String email, String password) {
-//        authentication = new Authentication(driver);
-//        driver.get(ConfProperties.getProperty("loginPage"));
-//
-//        if (isLogin()) {
-//            if (!isUserNameCorrect(userName)) {
-//                authentication.logout();
-//                login(userName, email, password);
-//            }
-//        } else {
-//            authentication.inputEmail(email);
-//            authentication.inputPassword(password);
-//            authentication.clickSubmitLoginBtn();
-//        }
-//    }
-//
-//    public void logoutIfPossible() {
-////        driver.get(ConfProperties.getProperty("loginPage"));
-//
-//        try {
-//            driver.get(authentication.getLogoutLink());
-//        } catch (NullPointerException e) {
-//            System.out.println("Already Logout");
-//        }
-//    }
-//
-//    public boolean isLogin() {
-//        try {
-//            authentication.getAccountName();
-//            return true;
-//        } catch (NullPointerException e) {
-//            return false;
-//        }
-//    }
-//
-//    public boolean isUserNameCorrect(String userName) {
-//        return authentication.getAccountName().equals(userName);
-//    }
 }

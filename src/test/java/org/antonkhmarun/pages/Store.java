@@ -24,10 +24,6 @@ public class Store extends BasePage {
         return productsImgLinks.stream().map(element -> element.getAttribute("href")).collect(Collectors.toList());
     }
 
-//    public String getProductLink(WebElement product) {
-//        return product.
-//    }
-
     public List<WebElement> getAllProducts() {
         return allProducts;
     }

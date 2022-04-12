@@ -7,7 +7,7 @@ public enum State {
     COLORADO("Colorado"),
     IOWA("Iowa"),
     MONTANA("Montana"),
-    RHODAE("Rhode"),
+    RHODE("Rhode Island"),
     TEXAS("Texas"),
     US_VIRGIN_ISLAND("US Virgin Islands"),
     WYOMING("Wyoming");

@@ -18,7 +18,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CreatingAccount extends BaseTest{
+public class CreatingAccountTest extends BaseTest{
 
     public static PersonalInformation personalInformation;
     public static Authentication authentication;

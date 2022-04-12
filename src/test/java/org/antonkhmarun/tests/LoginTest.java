@@ -9,7 +9,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class Login extends BaseTest {
+public class LoginTest extends BaseTest {
 
     public static Authentication authentication;
 

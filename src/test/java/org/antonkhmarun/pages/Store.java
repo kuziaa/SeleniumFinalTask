@@ -24,6 +24,10 @@ public class Store extends BasePage {
         return productsImgLinks.stream().map(element -> element.getAttribute("href")).collect(Collectors.toList());
     }
 
+//    public String getProductLink(WebElement product) {
+//        return product.
+//    }
+
     public List<WebElement> getAllProducts() {
         return allProducts;
     }
@@ -33,7 +37,7 @@ public class Store extends BasePage {
     }
 
     public double getProductPrice(WebElement product) {
-        String priceAsString = product.findElement(By.xpath("//div[@class='right-block']//span[@itemprop='price']")).getText().trim().substring(1);
+        String priceAsString = product.findElement(By.xpath(".//div[@class='right-block']//span[@itemprop='price']")).getText().trim().substring(1);
         return Double.parseDouble(priceAsString);
     }
 }

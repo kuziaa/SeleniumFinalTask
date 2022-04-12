@@ -1,70 +1,52 @@
 package org.antonkhmarun.tests;
 
-import com.beust.ah.A;
-import org.antonkhmarun.config.ConfProperties;
-import org.antonkhmarun.pages.AddedToCart;
-import org.antonkhmarun.pages.Authentication;
-import org.antonkhmarun.pages.Store;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.antonkhmarun.pages.BasePage;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
 
-import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Cart extends BaseTest {
+public class Cart extends BasePage {
 
-    public static Authentication authentication;
-    public static Store store;
-    public static AddedToCart addedToCart;
-
-    @BeforeEach
-    public void BeforeEachTest() {
-        authentication = new Authentication(driver);
-        addedToCart = new AddedToCart(driver);
-        store = new Store(driver);
-        driver.get(ConfProperties.getProperty("loginPage"));
+    public Cart(WebDriver driver) {
+        super(driver);
     }
 
-    @Test
-    public void AddProductsInCart() {
-        String email = ConfProperties.getProperty("testEmail");
-        String password = ConfProperties.getProperty("testPassword");
+    @FindBy(css = ".cart_item")
+    private List<WebElement> productsInCart;
 
-        authentication.login(email, password);
+    @FindBy(css = ".cart-info > .price")
+    private List<WebElement> pricesOfProductsInCart;
 
-        driver.get(ConfProperties.getProperty("storePage"));
+    @FindBy(css = "#total_shipping")
+    private WebElement totalShipping;
 
-        List<WebElement> allProducts = store.getAllProducts();
+    @FindBy(css = "#total_tax")
+    private WebElement totalTax;
 
-        System.out.println(allProducts.size());
-        Collections.shuffle(allProducts);
-        System.out.println(allProducts);
+    @FindBy(css = "#total_price")
+    private WebElement totalPrice;
 
-        List<WebElement> productsForCart = new ArrayList<>();
-        productsForCart.add(allProducts.get(0));
-        productsForCart.add(allProducts.get(1));
-        productsForCart.add(allProducts.get(2));
-
-        List<Double> pricesOfProductsToCart = productsForCart.stream().map(webElement -> store.getProductPrice(webElement)).collect(Collectors.toList());
-        System.out.println(pricesOfProductsToCart);
-
-        Actions actions = new Actions(driver);
-        actions.moveToElement(productsForCart.get(0)).perform();
-        store.clickAddToCartBtn(productsForCart.get(0));
-        addedToCart.clickContinueShoppingBtn();
-
-        actions.moveToElement(productsForCart.get(1)).perform();
-        store.clickAddToCartBtn(productsForCart.get(1));
-        addedToCart.clickContinueShoppingBtn();
-
-        actions.moveToElement(productsForCart.get(2)).perform();
-        store.clickAddToCartBtn(productsForCart.get(2));
-        addedToCart.clickProceedToCheckoutBtn();
+    public List<WebElement> getProductsInCart() {
+        return productsInCart;
     }
+
+    public List<Double> getPricesOfProductsInCart() {
+        return pricesOfProductsInCart.stream().map(product -> Double.parseDouble(product.getText().trim().substring(1))).collect(Collectors.toList());
+    }
+
+    public double getTotalShippingPrice() {
+        return Double.parseDouble(totalShipping.getText().trim().substring(1));
+    }
+
+    public double getTotalTaxPrice() {
+        return Double.parseDouble(totalTax.getText().trim().substring(1));
+    }
+
+    public double getTotalPrice() {
+        return Double.parseDouble(totalPrice.getText().trim().substring(1));
+    }
+
 }

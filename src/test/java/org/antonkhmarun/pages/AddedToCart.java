@@ -16,6 +16,10 @@ public class AddedToCart extends BasePage {
     @FindBy(css = "a[title='Proceed to checkout']")
     private WebElement proceedToCheckoutBtn;
 
+    public WebElement getContinueShoppingBtn() {
+        return continueShoppingBtn;
+    }
+
     public void clickContinueShoppingBtn() {
         continueShoppingBtn.click();
     }

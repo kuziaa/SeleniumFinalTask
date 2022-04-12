@@ -7,9 +7,9 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class MyWishlist extends BasePage {
+public class Wishlist extends BasePage {
 
-    public MyWishlist(WebDriver driver) {
+    public Wishlist(WebDriver driver) {
         super(driver);
     }
 

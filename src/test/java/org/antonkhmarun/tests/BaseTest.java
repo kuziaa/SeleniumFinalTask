@@ -1,6 +1,8 @@
 package org.antonkhmarun.tests;
 
 import org.antonkhmarun.config.ConfProperties;
+import org.antonkhmarun.support.TestResultWatcher;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.MutableCapabilities;
@@ -19,7 +21,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 
-//@ExtendWith(TestResultWatcher.class)
+@ExtendWith(TestResultWatcher.class)
 public class BaseTest {
 
     public static WebDriver driver;
@@ -32,6 +34,11 @@ public class BaseTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
         wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+    }
+
+    @AfterAll
+    public static void tearDown() {
+        driver.quit();
     }
 
     private static WebDriver getDriver() throws MalformedURLException {
@@ -62,7 +69,7 @@ public class BaseTest {
                 return new ChromeDriver();
             }
             case "firefox": {
-                System.setProperty("webdriver.geco.driver", ConfProperties.getProperty("firefox"));
+                System.setProperty("webdriver.gecko.driver", ConfProperties.getProperty("firefox"));
                 return new FirefoxDriver();
             }
             default: {

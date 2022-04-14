@@ -7,6 +7,7 @@ import org.antonkhmarun.pages.Cart;
 import org.antonkhmarun.pages.Store;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -56,6 +57,7 @@ public class CartTest extends BaseTest {
 
         productsForCart.forEach(product -> {
             Actions actions = new Actions(driver);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", product);
             actions.moveToElement(product).perform();
             store.clickAddToCartBtn(product);
             wait.until(ExpectedConditions.elementToBeClickable(addedToCart.getContinueShoppingBtn()));

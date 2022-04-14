@@ -6,7 +6,7 @@ import org.antonkhmarun.enums.Country;
 import org.antonkhmarun.enums.State;
 import org.antonkhmarun.pages.Authentication;
 import org.antonkhmarun.pages.PersonalInformation;
-import org.antonkhmarun.supply.RandomDateGenerator;
+import org.antonkhmarun.support.RandomDateGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.support.ui.Select;

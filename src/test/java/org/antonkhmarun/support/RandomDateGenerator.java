@@ -1,4 +1,4 @@
-package org.antonkhmarun.supply;
+package org.antonkhmarun.support;
 
 import com.github.javafaker.Faker;
 

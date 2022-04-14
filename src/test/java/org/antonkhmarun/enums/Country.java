@@ -1,7 +1,5 @@
 package org.antonkhmarun.enums;
 
-import org.antonkhmarun.supply.RandomDataGenerator;
-
 import java.util.Random;
 
 public enum Country {

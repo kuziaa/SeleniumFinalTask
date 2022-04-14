@@ -80,7 +80,7 @@ public class BaseTest {
 
     private static WebDriver getGridDriver() throws MalformedURLException {
         String gridBrowserName = System.getProperty("browser", "chrome");
-        String gridPlatformName = System.getProperty("platform", "windows10");
+        String gridPlatformName = System.getProperty("platform", "windows 10");
         String gridLocalHost = ConfProperties.getProperty("gridLocalHost");
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
 
@@ -99,11 +99,11 @@ public class BaseTest {
         }
 
         switch (gridPlatformName) {
-            case "windows10": {
+            case "windows 10": {
                 desiredCapabilities.setPlatform(Platform.WIN10);
                 break;
             }
-            case "windows8.1": {
+            case "windows 8.1": {
                 desiredCapabilities.setPlatform(Platform.WIN8_1);
                 break;
             }

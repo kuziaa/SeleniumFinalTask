@@ -1,0 +1,1 @@
+java -jar selenium-server-4.1.2.jar node --config node1.toml

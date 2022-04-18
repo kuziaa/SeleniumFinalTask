@@ -1,0 +1,11 @@
+[server]
+port = 5555
+
+[node]
+detect-drivers = false
+
+[[node.driver-configuration]]
+display-name = "Chrome"
+webdriver-executable = "C:\\Drivers\\Chrome\\99.0.4844.51\\chromedriver.exe"
+max-sessions = 3
+stereotype = "{\"browserName\": \"chrome\", \"browserVersion\": \"99.0.4844.51\"}}"

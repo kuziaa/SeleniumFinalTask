@@ -1,0 +1,11 @@
+[server]
+port = 5556
+
+[node]
+detect-drivers = false
+
+[[node.driver-configuration]]
+display-name = "Firefox"
+webdriver-executable = "C:\\Drivers\\Gecodriver\\0.30.0\\geckodriver.exe"
+max-sessions = 3
+stereotype = "{\"browserName\": \"firefox\", \"browserVersion\": \"0.30.0\"}}"

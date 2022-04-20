@@ -6,6 +6,7 @@ import org.antonkhmarun.pages.Authentication;
 import org.antonkhmarun.pages.Wishlist;
 import org.antonkhmarun.pages.Product;
 import org.antonkhmarun.pages.Store;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Alert;
@@ -43,8 +44,7 @@ public class WishlistTest extends BaseTest {
 
         driver.get(ConfProperties.getProperty("storePage"));
 
-        List<String> allProductsLinks = store.getAllProductsLinks();
-        driver.get(allProductsLinks.get(random.nextInt(allProductsLinks.size())));
+        driver.get(store.getRandomProductLink());
 
         product.clickWishlistBtn();
 
@@ -52,19 +52,12 @@ public class WishlistTest extends BaseTest {
 
         List<WebElement> wishlists = wishlist.getWishlists();
 
-        assertEquals(1, wishlists.size());
+        assertEquals(1, wishlist.getAmountOfWishlists());
 
         WebElement wishlist1 = wishlists.get(0);
 
         assertEquals("My wishlist", wishlist.getWishlistName(wishlist1));
         assertEquals("1", wishlist.getWishListQuantity(wishlist1));
-
-        wishlist.clickDeleteWishlistBtn(wishlist1);
-
-        Alert al = driver.switchTo().alert();
-        al.accept();
-
-        wishlist.logout();
     }
 
     @Test
@@ -76,37 +69,36 @@ public class WishlistTest extends BaseTest {
 
         driver.get(ConfProperties.getProperty("myWishlistsPage"));
 
-        String newWishListName = faker.dog().name();
-        wishlist.inputNewWishlistName(newWishListName);
+        String wishListName = faker.dog().name();
+        wishlist.inputNewWishlistName(wishListName);
         wishlist.clickSubmitWishlistBtn();
 
-        List<WebElement> wishlists1 = wishlist.getWishlists();
-        assertEquals(1, wishlists1.size());
+        List<WebElement> allWishlists = wishlist.getWishlists();
+        assertEquals(1, wishlist.getAmountOfWishlists());
 
-        WebElement wishlist1 = wishlists1.get(0);
-        assertEquals(newWishListName, wishlist.getWishlistName(wishlist1));
-        assertEquals("0", wishlist.getWishListQuantity(wishlist1));
+        WebElement justCreatedWishlist = allWishlists.get(0);
+        assertEquals(wishListName, wishlist.getWishlistName(justCreatedWishlist));
+        assertEquals("0", wishlist.getWishListQuantity(justCreatedWishlist));
 
         driver.get(ConfProperties.getProperty("storePage"));
-        List<String> allProductsLinks = store.getAllProductsLinks();
-        driver.get(allProductsLinks.get(random.nextInt(allProductsLinks.size())));
+        driver.get(store.getRandomProductLink());
 
         product.clickWishlistBtn();
 
         driver.get(ConfProperties.getProperty("myWishlistsPage"));
 
-        List<WebElement> wishlists2 = wishlist.getWishlists();
-        assertEquals(1, wishlists2.size());
+        allWishlists = wishlist.getWishlists();
+        assertEquals(1, allWishlists.size());
 
-        WebElement wishlist2 = wishlists1.get(0);
-        assertEquals(newWishListName, wishlist.getWishlistName(wishlist2));
-        assertEquals("1", wishlist.getWishListQuantity(wishlist2));
+        WebElement newWishlist = allWishlists.get(0);
+        assertEquals(wishListName, wishlist.getWishlistName(newWishlist));
+        assertEquals("1", wishlist.getWishListQuantity(newWishlist));
+    }
 
-        wishlist.clickDeleteWishlistBtn(wishlist2);
-
-        Alert al = driver.switchTo().alert();
-        al.accept();
-
+    @AfterEach
+    public void cleanUp() {
+        driver.get(ConfProperties.getProperty("myWishlistsPage"));
+        wishlist.deleteAllWishlists(wait);
         wishlist.logout();
     }
 }

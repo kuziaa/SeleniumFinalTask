@@ -25,6 +25,8 @@ public class BasePage {
     }
 
     public void logout() {
-        logoutBtn.click();
+        if (logoutBtn != null) {
+            logoutBtn.click();
+        }
     }
 }

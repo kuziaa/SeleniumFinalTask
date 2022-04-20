@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
@@ -46,5 +48,16 @@ public class Cart extends BasePage {
 
     public void delProductFromCart(WebElement product) {
         product.findElement(By.xpath(".//a[@class='cart_quantity_delete']")).click();
+    }
+
+    public void delAllProductsFromCart(WebDriverWait wait) {
+        getProductsInCart().forEach(product -> {
+            delProductFromCart(product);
+            wait.until(ExpectedConditions.invisibilityOfAllElements(product));
+        });
+    }
+
+    public int getAmountOfProductsInCart() {
+        return getProductsInCart().size();
     }
 }

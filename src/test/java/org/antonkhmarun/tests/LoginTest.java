@@ -27,7 +27,6 @@ public class LoginTest extends BaseTest {
         authentication.login(email, password);
 
         assertEquals("Anton Khmarun", authentication.getAccountName());
-        authentication.logout();
     }
 
     @Test
@@ -42,5 +41,10 @@ public class LoginTest extends BaseTest {
 
         assertEquals(expectedAlertTitle, authentication.getAlertDangerTitle());
         assertEquals(List.of(expectedAlertMessage), authentication.getListAlertDangerMessages());
+    }
+
+    @AfterEach
+    public void cleanUp() {
+        authentication.logout();
     }
 }

@@ -5,17 +5,12 @@ import org.antonkhmarun.pages.AddedToCart;
 import org.antonkhmarun.pages.Authentication;
 import org.antonkhmarun.pages.Cart;
 import org.antonkhmarun.pages.Store;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -42,42 +37,29 @@ public class CartTest extends BaseTest {
         authentication.login(email, password);
 
         driver.get(ConfProperties.getProperty("storePage"));
+
         int numOfProdToCart = 3;
+        assertTrue(numOfProdToCart < store.getAmountOfProductsOnPage());
 
-        List<WebElement> allProducts = store.getAllProducts();
-        assertTrue(numOfProdToCart < allProducts.size());
+        List<WebElement> productsForCart = store.getNRandomProducts(numOfProdToCart);
+        double sumPricesOfProductsInCart = store.getSumProductsPrice(productsForCart);
 
-        List<Integer> allProductsIndexes = IntStream.range(0, allProducts.size()).boxed().collect(Collectors.toList());
-        Collections.shuffle(allProductsIndexes);
-
-        List<WebElement> productsForCart = IntStream.range(0, numOfProdToCart).mapToObj(i -> allProducts.get(allProductsIndexes.get(i))).collect(Collectors.toList());
-
-        List<Double> pricesOfProductsInCart = productsForCart.stream().map(webElement -> store.getProductPrice(webElement)).collect(Collectors.toList());
-        double sumPricesOfProductsInCart = pricesOfProductsInCart.stream().reduce(0.0, Double::sum);
-
-        productsForCart.forEach(product -> {
-            Actions actions = new Actions(driver);
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", product);
-            actions.moveToElement(product).perform();
-            store.clickAddToCartBtn(product);
-            wait.until(ExpectedConditions.elementToBeClickable(addedToCart.getContinueShoppingBtn()));
-            addedToCart.clickContinueShoppingBtn();
-        });
+        store.addProductsToCart(productsForCart, wait);
 
         driver.get(ConfProperties.getProperty("cartPage"));
-        List<WebElement> productsInCart = cart.getProductsInCart();
 
-        assertEquals(numOfProdToCart, productsInCart.size());
+        assertEquals(numOfProdToCart, cart.getAmountOfProductsInCart());
 
         Double expectedTotalPriceInCart = sumPricesOfProductsInCart + cart.getTotalShippingPrice() + cart.getTotalTaxPrice();
         expectedTotalPriceInCart = (double) Math.round(expectedTotalPriceInCart * 100) / 100;
-        assertEquals(expectedTotalPriceInCart, cart.getTotalPrice());
 
-        // Clean up
-        productsInCart.forEach(product -> {
-            cart.delProductFromCart(product);
-            wait.until(ExpectedConditions.invisibilityOfAllElements(product));
-        });
+        assertEquals(expectedTotalPriceInCart, cart.getTotalPrice());
+    }
+
+    @AfterEach
+    public void cleanUp() {
+        driver.get(ConfProperties.getProperty("cartPage"));
+        cart.delAllProductsFromCart(wait);
         cart.logout();
     }
 }

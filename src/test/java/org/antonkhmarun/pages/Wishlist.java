@@ -1,9 +1,12 @@
 package org.antonkhmarun.pages;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
@@ -44,5 +47,18 @@ public class Wishlist extends BasePage {
 
     public void clickSubmitWishlistBtn() {
         submitWishlistBtn.click();
+    }
+
+    public int getAmountOfWishlists() {
+        return getWishlists().size();
+    }
+
+    public void deleteAllWishlists(WebDriverWait wait) {
+        getWishlists().forEach(wishlist -> {
+            clickDeleteWishlistBtn(wishlist);
+            Alert al = driver.switchTo().alert();
+            al.accept();
+            wait.until(ExpectedConditions.invisibilityOfAllElements(wishlist));
+        });
     }
 }

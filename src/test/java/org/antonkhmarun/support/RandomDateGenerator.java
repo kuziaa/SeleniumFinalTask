@@ -18,7 +18,6 @@ public class RandomDateGenerator {
         Date startDate = formatter.parse("01-01-1900");
         Date date = faker.date().between(startDate, new Date());
         calendar.setTime(date);
-        System.out.println(date);
     }
 
     public String getYear() {

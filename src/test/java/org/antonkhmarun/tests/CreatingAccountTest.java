@@ -7,6 +7,7 @@ import org.antonkhmarun.enums.State;
 import org.antonkhmarun.pages.Authentication;
 import org.antonkhmarun.pages.PersonalInformation;
 import org.antonkhmarun.support.RandomDateGenerator;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.support.ui.Select;
@@ -38,13 +39,11 @@ public class CreatingAccountTest extends BaseTest{
 
         String firstName = faker.name().firstName();
         String lastName = faker.name().lastName();
-        fillAllFieldsWithRandomValidData(firstName, lastName);
+        personalInformation.fillAllFieldsWithRandomValidData(firstName, lastName);
 
         personalInformation.clickSubmitAccountBtn();
 
         assertEquals(firstName + " " + lastName, authentication.getAccountName());
-
-        authentication.logout();
     }
 
     @Test
@@ -54,7 +53,7 @@ public class CreatingAccountTest extends BaseTest{
 
         personalInformation.clickRandomRadioBtnMrMrs();
 
-        fillAllFieldsWithRandomValidData();
+        personalInformation.fillAllFieldsWithRandomValidData();
 
         personalInformation.cleanCustomerFirstName();
         personalInformation.clickSubmitAccountBtn();
@@ -73,7 +72,7 @@ public class CreatingAccountTest extends BaseTest{
 
         personalInformation.clickRandomRadioBtnMrMrs();
 
-        fillAllFieldsWithRandomValidData();
+        personalInformation.fillAllFieldsWithRandomValidData();
 
         personalInformation.cleanCustomerFirstName();
         personalInformation.cleanCustomerLastName();
@@ -87,79 +86,8 @@ public class CreatingAccountTest extends BaseTest{
         assertEquals(List.of(expectedAlertMessage1, expectedAlertMessage2), personalInformation.getListAlertDangerMessages());
     }
 
-    private void fillAllFieldsWithRandomValidData() throws ParseException {
-        personalInformation.inputCustomerFirstName(faker.name().firstName());
-        personalInformation.inputCustomerLastName(faker.name().lastName());
-        personalInformation.inputPassword(faker.internet().password());
-
-        Select selectYear = personalInformation.getSelectYear();
-        Select selectMonth = personalInformation.getSelectMonth();
-        Select selectDay = personalInformation.getSelectDay();
-
-        RandomDateGenerator validDate = new RandomDateGenerator();
-        selectYear.selectByValue(validDate.getYear());
-        selectMonth.selectByValue(String.valueOf(validDate.getMonth()));
-        selectDay.selectByValue(String.valueOf(validDate.getDay()));
-
-        personalInformation.clickNewsletterCheckbox();
-        personalInformation.clickSpecialOffersCheckbox();
-        personalInformation.inputCompany(faker.company().name());
-        personalInformation.inputAddressLineOne(faker.address().fullAddress());
-        personalInformation.inputAddressLineTwo(faker.address().secondaryAddress());
-
-        Select selectCountry = personalInformation.getSelectCountry();
-        selectCountry.selectByVisibleText(Country.getRandomCountry().getCountry());
-
-        personalInformation.inputCity(faker.address().city());
-
-        Select selectState = personalInformation.getSelectState();
-        selectState.selectByVisibleText(State.getRandomState().getState());
-
-        personalInformation.inputPostCode(faker.address().zipCode().substring(0, 5));
-
-        personalInformation.inputAdditionalInformation(faker.harryPotter().quote());
-        personalInformation.inputHomePhone(faker.phoneNumber().cellPhone());
-        personalInformation.inputMobilePhone(faker.phoneNumber().cellPhone());
-
-        personalInformation.clearAddressAlias();
-        personalInformation.inputAddressAlias(faker.dog().name());
-    }
-
-    private void fillAllFieldsWithRandomValidData(String firstName, String lastName) throws ParseException {
-        personalInformation.inputCustomerFirstName(firstName);
-        personalInformation.inputCustomerLastName(lastName);
-        personalInformation.inputPassword(faker.internet().password());
-
-        Select selectYear = personalInformation.getSelectYear();
-        Select selectMonth = personalInformation.getSelectMonth();
-        Select selectDay = personalInformation.getSelectDay();
-
-        RandomDateGenerator validDate = new RandomDateGenerator();
-        selectYear.selectByValue(validDate.getYear());
-        selectMonth.selectByValue(String.valueOf(validDate.getMonth()));
-        selectDay.selectByValue(String.valueOf(validDate.getDay()));
-
-        personalInformation.clickNewsletterCheckbox();
-        personalInformation.clickSpecialOffersCheckbox();
-        personalInformation.inputCompany(faker.company().name());
-        personalInformation.inputAddressLineOne(faker.address().fullAddress());
-        personalInformation.inputAddressLineTwo(faker.address().secondaryAddress());
-
-        Select selectCountry = personalInformation.getSelectCountry();
-        selectCountry.selectByVisibleText(Country.getRandomCountry().getCountry());
-
-        personalInformation.inputCity(faker.address().city());
-
-        Select selectState = personalInformation.getSelectState();
-        selectState.selectByVisibleText(State.getRandomState().getState());
-
-        personalInformation.inputPostCode(faker.address().zipCode().substring(0, 5));
-
-        personalInformation.inputAdditionalInformation(faker.harryPotter().quote());
-        personalInformation.inputHomePhone(faker.phoneNumber().cellPhone());
-        personalInformation.inputMobilePhone(faker.phoneNumber().cellPhone());
-
-        personalInformation.clearAddressAlias();
-        personalInformation.inputAddressAlias(faker.dog().name());
+    @AfterEach
+    public void cleanUp() {
+        authentication.logout();
     }
 }

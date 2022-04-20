@@ -1,18 +1,26 @@
 package org.antonkhmarun.pages;
 
+import com.github.javafaker.Faker;
+import org.antonkhmarun.enums.Country;
+import org.antonkhmarun.enums.State;
+import org.antonkhmarun.support.RandomDateGenerator;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 public class PersonalInformation extends BasePage {
 
+    Faker faker;
+
     public PersonalInformation(WebDriver driver) {
         super(driver);
+        faker = new Faker();
     }
 
     @FindBy(css = "#id_gender1")
@@ -211,5 +219,81 @@ public class PersonalInformation extends BasePage {
 
     public List<String> getListAlertDangerMessages() {
         return alertDangerMessages.stream().map(WebElement::getText).collect(Collectors.toList());
+    }
+
+    public void fillAllFieldsWithRandomValidData() throws ParseException {
+        inputCustomerFirstName(faker.name().firstName());
+        inputCustomerLastName(faker.name().lastName());
+        inputPassword(faker.internet().password());
+
+        Select selectYear = getSelectYear();
+        Select selectMonth = getSelectMonth();
+        Select selectDay = getSelectDay();
+
+        RandomDateGenerator validDate = new RandomDateGenerator();
+        selectYear.selectByValue(validDate.getYear());
+        selectMonth.selectByValue(String.valueOf(validDate.getMonth()));
+        selectDay.selectByValue(String.valueOf(validDate.getDay()));
+
+        clickNewsletterCheckbox();
+        clickSpecialOffersCheckbox();
+        inputCompany(faker.company().name());
+        inputAddressLineOne(faker.address().fullAddress());
+        inputAddressLineTwo(faker.address().secondaryAddress());
+
+        Select selectCountry = getSelectCountry();
+        selectCountry.selectByVisibleText(Country.getRandomCountry().getCountry());
+
+        inputCity(faker.address().city());
+
+        Select selectState = getSelectState();
+        selectState.selectByVisibleText(State.getRandomState().getState());
+
+        inputPostCode(faker.address().zipCode().substring(0, 5));
+
+        inputAdditionalInformation(faker.harryPotter().quote());
+        inputHomePhone(faker.phoneNumber().cellPhone());
+        inputMobilePhone(faker.phoneNumber().cellPhone());
+
+        clearAddressAlias();
+        inputAddressAlias(faker.dog().name());
+    }
+
+    public void fillAllFieldsWithRandomValidData(String firstName, String lastName) throws ParseException {
+        inputCustomerFirstName(firstName);
+        inputCustomerLastName(lastName);
+        inputPassword(faker.internet().password());
+
+        Select selectYear = getSelectYear();
+        Select selectMonth = getSelectMonth();
+        Select selectDay = getSelectDay();
+
+        RandomDateGenerator validDate = new RandomDateGenerator();
+        selectYear.selectByValue(validDate.getYear());
+        selectMonth.selectByValue(String.valueOf(validDate.getMonth()));
+        selectDay.selectByValue(String.valueOf(validDate.getDay()));
+
+        clickNewsletterCheckbox();
+        clickSpecialOffersCheckbox();
+        inputCompany(faker.company().name());
+        inputAddressLineOne(faker.address().fullAddress());
+        inputAddressLineTwo(faker.address().secondaryAddress());
+
+        Select selectCountry = getSelectCountry();
+        selectCountry.selectByVisibleText(Country.getRandomCountry().getCountry());
+
+        inputCity(faker.address().city());
+
+        Select selectState = getSelectState();
+        selectState.selectByVisibleText(State.getRandomState().getState());
+
+        inputPostCode(faker.address().zipCode().substring(0, 5));
+
+        inputAdditionalInformation(faker.harryPotter().quote());
+        inputHomePhone(faker.phoneNumber().cellPhone());
+        inputMobilePhone(faker.phoneNumber().cellPhone());
+
+        clearAddressAlias();
+        inputAddressAlias(faker.dog().name());
     }
 }
